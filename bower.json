@@ -1,0 +1,19 @@
+{
+  "name": "tremob",
+  "description": "ERROR: No README data found!",
+  "main": "index.js",
+  "authors": [
+    "kotroczo.mate <kotroczo.mate@virgo.hu>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "bootstrap": "^3.3.6",
+    "bootstrap-css": "^3.3.6",
+    "jquery.serializeJSON": "^2.7.2",
+    "components-font-awesome": "^4.5.0",
+    "moment-js": "^0.3.0"
+  }
+}

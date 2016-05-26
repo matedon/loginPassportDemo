@@ -1,0 +1,40 @@
+{
+  "name": "loginPassportDemo",
+  "version": "0.0.3",
+  "description": "NodeJS demo application for passportjs login.",
+  "private": true,
+  "repository": null,
+  "main": "index.js",
+  "engines": {
+    "node": "4.x",
+    "npm": "2.1.x"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-shell": "^1.2.1"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "body-parser": "^1.15.0",
+    "bower": "^1.7.7",
+    "express": "^4.13.3",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.5",
+    "handlebars-helper-equal": "^1.0.0",
+    "less-middleware": "^2.1.0",
+    "lodash": "^4.7.0",
+    "nodemailer": "^2.3.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "postinstall": ""
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,312 @@
+{
+  "items": [
+    {
+      "summary": "Welcome dinner",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-10 20:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-10 22:30:00"
+      }
+    },
+    {
+      "summary": "Kahlua coffee bike",
+      "description": null,
+      "location": {
+        "name": "outside Hotel Helios",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-11 06:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-11 18:30:00"
+      }
+    },
+    {
+      "summary": "Malibu beachWine and tapas lunch",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-11 12:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-11 15:00:00"
+      }
+    },
+    {
+      "summary": "Aperitive",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Winemakers Bar, Helios Hotel",
+        "src": "public/events/img/location/pernodricardstructure.png"
+      },
+      "start": {
+        "dateTime": "2016-04-11 18:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-11 20:00:00"
+      }
+    },
+    {
+      "summary": "Premier Awards Dinner",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Structure",
+        "src": "public/events/img/location/pernodricardstructure.png"
+      },
+      "start": {
+        "dateTime": "2016-04-11 20:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-11 22:30:00"
+      }
+    },
+    {
+      "summary": "Entertainment in the bars",
+      "description": null,
+      "location": {
+        "name": "The Theatre, Warehouse, Le Cercle Lounge",
+        "src": "public/events/img/location/thetheatre.png"
+      },
+      "start": {
+        "dateTime": "2016-04-11 22:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 02:30:00"
+      }
+    },
+    {
+      "summary": "Kahlua coffee bike",
+      "description": null,
+      "location": {
+        "name": "outside Hotel Helios",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 06:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 18:30:00"
+      }
+    },
+    {
+      "summary": "Wine and tapas lunch",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 12:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 15:00:00"
+      }
+    },
+    {
+      "summary": "TAC brand summit",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 14:40:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 16:05:00"
+      }
+    },
+    {
+      "summary": "Aperitive",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Winemakers Bar, Helios Hotel",
+        "src": "public/events/img/location/pernodricardstructure.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 18:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 20:00:00"
+      }
+    },
+    {
+      "summary": "Innovation Dinner",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Structure",
+        "src": "public/events/img/location/pernodricardstructure.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 20:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 22:30:00"
+      }
+    },
+    {
+      "summary": "Pina colada party",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Structure",
+        "src": "public/events/img/location/pernodricardstructure.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 23:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-12 23:30:00"
+      }
+    },
+    {
+      "summary": "Entertainment in the bars",
+      "description": null,
+      "location": {
+        "name": "The Theatre, Warehouse, Le Cercle Lounge",
+        "src": "public/events/img/location/thetheatre.png"
+      },
+      "start": {
+        "dateTime": "2016-04-12 22:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-13 02:30:00"
+      }
+    },
+    {
+      "summary": "Kahlua coffee bike",
+      "description": null,
+      "location": {
+        "name": "outside Hotel Helios",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-13 06:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-13 18:30:00"
+      }
+    },
+    {
+      "summary": "Aperitive",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Winemakers Bar, Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-13 18:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-13 20:00:00"
+      }
+    },
+    {
+      "summary": "The Absolut Company Dinner",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Structure",
+        "src": "public/events/img/location/pernodricardstructure.png"
+      },
+      "start": {
+        "dateTime": "2016-04-13 20:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-13 22:30:00"
+      }
+    },
+    {
+      "summary": "Entertainment in the bars",
+      "description": null,
+      "location": {
+        "name": "The Theatre, Warehouse, Le Cercle Lounge",
+        "src": "public/events/img/location/thetheatre.png"
+      },
+      "start": {
+        "dateTime": "2016-04-13 22:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-14 02:30:00"
+      }
+    },
+    {
+      "summary": "Wine and tapas lunch",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-14 12:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-14 15:00:00"
+      }
+    },
+    {
+      "summary": "Aperitive & Dinner",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Winemakers Bar, Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-14 18:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-14 22:30:00"
+      }
+    },
+    {
+      "summary": "Night bar",
+      "description": null,
+      "location": {
+        "name": "Pernod Ricard Winemakers Bar, Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-14 22:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-15 02:30:00"
+      }
+    },
+    {
+      "summary": "Breakfast",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-15 06:30:00"
+      },
+      "end": {
+        "dateTime": "2016-04-15 10:00:00"
+      }
+    },
+    {
+      "summary": "Lunch to take away",
+      "description": null,
+      "location": {
+        "name": "Helios Hotel",
+        "src": "public/events/img/location/helioshotel.png"
+      },
+      "start": {
+        "dateTime": "2016-04-15 12:00:00"
+      },
+      "end": {
+        "dateTime": "2016-04-15 15:00:00"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<h1 class="event">Today's key events</h1>
+{{#each events as |eventList|}}
+    {{#each eventList as |item|}}
+        {{> event.index event=item index=@index}}
+    {{/each}}
+{{/each}}
+<footer class="social">
+    <a href="https://www.facebook.com/malibuUK" target="_blank">
+        <i class="fa fa-facebook"></i>
+    </a>
+    <a href="https://twitter.com/malibuuk" target="_blank">
+        <i class="fa fa-twitter"></i>
+    </a>
+    <a href="https://www.instagram.com/malibu_rum" target="_blank">
+        <i class="fa fa-instagram"></i>
+    </a>
+</footer>
