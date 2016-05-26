@@ -4,6 +4,9 @@ var port = process.env.PORT || 5000,
     fs = require('fs'),
     path = require('path'),
     _ = require('lodash'),
+    morgan = require('morgan'),
+    passport = require('passport'),
+    // dbLocal = require('./db'),
     Promise = require("bluebird"),
     lessMiddleware = require('less-middleware'),
     bodyParser = require('body-parser'),
@@ -73,63 +76,38 @@ app
     }))
     .use('/bower_components', express.static('bower_components'))
     .use('/public', express.static('public'))
+    .use(require('express-session')({
+        secret: '3289rsldllfdsa--s',
+        resave: false,
+        saveUninitialized: false
+    }))
+    .use(passport.initialize())
+    .use(passport.session())
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({
         extended: true
     }))
+    .use(morgan('dev'))
     .engine('handlebars', hbs.engine)
     .set('view engine', 'handlebars')
 ;
 
-var renderPart = function (req, res, name, opts) {
+require('./app/routes.js')(app, passport, function (req, res, name, opts) {
     if (typeof name == 'undefined') {
         name = 'index';
     }
     opts = _.merge({
         assets: assets,
-        layout: 'main'
+        layout: 'main',
+        req: req
     }, opts);
     if (req.xhr) {
         opts.layout = 'ajax';
     }
     res.render(name, opts);
-};
-
-var mailerTest = function () {
-    var nodemailer = require('nodemailer');
-
-// create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport({
-        host: 'smtp.mandrillapp.com',
-        port: '587',
-        auth: {
-            user: 'info@talentscreener.com',
-            pass: 'Ub7yiIhWBHb4lA88Ii1cjg'
-        }
-    });
-
-// setup e-mail data with unicode symbols
-    var mailOptions = {
-        from: '"Fred Foo" <foo@blurdybloop.com>', // sender address
-        to: 'kotroczo.mate@virgo.hu', // list of receivers
-        subject: 'Hello OK', // Subject line
-        text: 'Hello world', // plaintext body
-        html: '<b>Hello world</b>' // html body
-    };
-
-// send mail with defined transport object
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-    });
-};
-
-app.get('/', function (req, res) {
-    mailerTest();
-    renderPart.call(this, req, res, 'index');
 });
+
+require('./config/passport')(passport);
 
 app.listen(port, function () {
     console.log('App listening on port: ' + port);

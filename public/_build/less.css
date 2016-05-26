@@ -2752,3 +2752,13 @@ fieldset[disabled] .btn-danger.active {
   overflow: visible;
   clip: auto;
 }
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+body .input-group {
+  margin-bottom: 20px;
+}
+body .input-group .input-group-addon .fa {
+  min-width: 1em;
+}

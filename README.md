@@ -1,2 +1,2 @@
-# tremob node
+# NodeJS demo application for passportjs login
 
