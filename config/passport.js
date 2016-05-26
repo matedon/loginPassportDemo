@@ -2,12 +2,6 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var dbLocal = require('../db');
 
-console.log(dbLocal);
-
-// var aa = User.users.findByEmail('jack@example.com', function () {
-//     console.log(arguments);
-// });
-
 module.exports = function (passport) {
 
     passport.serializeUser(function (user, done) {
