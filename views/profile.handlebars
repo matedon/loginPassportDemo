@@ -1,2 +1,23 @@
 <h1>Welcome</h1>
 <p>This is your profile page!</p>
+<hr />
+{{#if req.user}}
+    <dl>
+        <dt>Username</dt>
+        <dd>{{req.user.username}}</dd>
+        <dt>Name</dt>
+        <dd>{{req.user.displayName}}</dd>
+        <dt>email</dt>
+        <dd>{{req.user.email}}</dd>
+    </dl>
+{{/if}}
+{{#if req.query.login}}
+    <div class="well">
+        After login, you are redirected to the main page!
+    </div>
+    <script>
+        var indexTimer = setTimeout(function () {
+            window.location.href = '/';
+        }, 1000);
+    </script>
+{{/if}}

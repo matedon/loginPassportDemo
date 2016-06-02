@@ -1,4 +1,7 @@
-var port = process.env.PORT || 5000,
+'use strict';
+
+const
+    port = process.env.PORT || 5000,
     express = require('express'),
     app = express(),
     fs = require('fs'),
@@ -7,21 +10,22 @@ var port = process.env.PORT || 5000,
     morgan = require('morgan'),
     passport = require('passport'),
     // dbLocal = require('./db'),
-    Promise = require("bluebird"),
+    Promise = require('bluebird'),
     lessMiddleware = require('less-middleware'),
     bodyParser = require('body-parser'),
+    phpdate = require('phpdate-js'),
     exphbs = require('express-handlebars'),
+    timeStamp = (new Date()).getTime();
+var
     assets = {
         styles: [
             'public/_build/css.css',
-            'public/_build/less.css',
-            'public/_build/fonts/fonts.css'
+            'public/_build/less.css'
         ],
         scripts: [
             'public/_build/general.js'
         ]
-    },
-    timeStamp = (new Date()).getTime();
+    };
 
 _.forEach(assets, function (group) {
     _.forEach(group, function (line, key) {
@@ -58,6 +62,17 @@ var hbs = exphbs.create({
             });
             return out.join('');
         },
+        phpdate: function () {
+            var dateFormat = 'Y.m.d. H:i:s',
+                dateText = (new Date()).getTime();
+            if (arguments.length > 1) {
+                dateText = arguments[0];
+            }
+            if (arguments.length > 2) {
+                dateFormat = arguments[1];
+            }
+            return phpdate(dateFormat, dateText);
+        },
         jsonStringify: function () {
             var json;
             if (arguments.length > 1) {
@@ -92,20 +107,7 @@ app
     .set('view engine', 'handlebars')
 ;
 
-require('./app/routes.js')(app, passport, function (req, res, name, opts) {
-    if (typeof name == 'undefined') {
-        name = 'index';
-    }
-    opts = _.merge({
-        assets: assets,
-        layout: 'main',
-        req: req
-    }, opts);
-    if (req.xhr) {
-        opts.layout = 'ajax';
-    }
-    res.render(name, opts);
-});
+require('./app/routes.js')(app, passport);
 
 require('./config/passport')(passport);
 

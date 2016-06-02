@@ -1,0 +1,24 @@
+{{#if error}}
+    <br />
+    <strong class="alert alert-danger">
+        {{{error}}}
+    </strong>
+{{/if}}
+{{#if github}}
+    <h2>Here you find the GIT repo list</h2>
+    <hr />
+    <section>
+        {{>githubPager}}
+        {{#each github}}
+            <article class="well">
+                <a href="{{this.html_url}}" target="_blank">
+                    {{this.owner.login}} @ {{this.name}}
+                </a>
+                <div>
+                    Created: {{phpdate this.created_at}}, Updated: {{phpdate this.updated_at}}
+                </div>
+            </article>
+        {{/each}}
+        {{>githubPager}}
+    </section>
+{{/if}}

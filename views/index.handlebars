@@ -1,6 +1,6 @@
-<h1 class="event">Today's key events</h1>
-{{#each events as |eventList|}}
-    {{#each eventList as |item|}}
-        {{> event.index event=item index=@index}}
-    {{/each}}
-{{/each}}
+<h1 class="event">Welcome on board!</h1>
+{{#if req.user}}
+    {{>github}}
+{{else}}
+    <p>Please <a href="/login">login</a> :)</p>
+{{/if}}

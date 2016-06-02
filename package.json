@@ -33,7 +33,8 @@
     "morgan": "^1.7.0",
     "nodemailer": "^2.3.0",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "phpdate-js": "^1.0.2"
   },
   "scripts": {
     "start": "node index.js",

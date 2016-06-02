@@ -16,12 +16,18 @@
                 <li class="{{#equal req.url "/" }}active{{/equal}}">
                     <a href="/">Home</a>
                 </li>
-                <li class="{{#equal req.url "/login" }}active{{/equal}}">
-                    <a href="/login">Login</a>
-                </li>
-                <li class="{{#equal req.url "/logout" }}active{{/equal}}">
-                    <a href="/logout">Logout</a>
-                </li>
+                {{#if req.user}}
+                    <li class="{{#equal page "profile" }}active{{/equal}}">
+                        <a href="/profile">Profile</a>
+                    </li>
+                    <li class="{{#equal page "logout" }}active{{/equal}}">
+                        <a href="/logout">Logout</a>
+                    </li>
+                {{else}}
+                    <li class="{{#equal page "login" }}active{{/equal}}">
+                        <a href="/login">Login</a>
+                    </li>
+                {{/if}}
                 <li><a href="#contact">Contact</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

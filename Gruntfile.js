@@ -13,11 +13,6 @@ assetResources = {
             'bower_components/bootstrap-css/css/bootstrap.min.css',
             'bower_components/bootstrap-css/css/bootstrap-theme.min.css'
         ],
-        fonts: [
-            'assets/fonts/geoxe3/styles.css',
-            'assets/fonts/geoxe3bold/styles.css',
-            'assets/fonts/CubanoForMalibu-Filling/styles.css'
-        ],
         less: [
             'assets/main.less'
         ]
@@ -69,16 +64,7 @@ module.exports = function (grunt) {
             options: $cssminOptions,
             files: {
                 'public/_build/css.css': [
-                    assetResources.style.general,
-                    assetResources.style.fonts
-                ]
-            }
-        },
-        fonts: {
-            options: $cssminOptions,
-            files: {
-                'public/_build/fonts/fonts.css': [
-                    assetResources.style.fonts
+                    assetResources.style.general
                 ]
             }
         }
@@ -97,14 +83,6 @@ module.exports = function (grunt) {
             filter: 'isFile'
         }
     };
-
-    assetResources.style.fonts.forEach(function(name) {
-        var folder = name.replace(/\\/g, '/').replace(/\/[^\/]*\/?$/, ''),
-            extList = ['eot', 'otf', 'svg', 'ttf', 'woff'];
-        extList.forEach(function (ext) {
-            gruntConfig.copy.files.src.push(folder + '/*.' + ext);
-        });
-    });
 
     gruntConfig.clean = {
         build: [
@@ -134,7 +112,7 @@ module.exports = function (grunt) {
             }
         },
         style_css: {
-            files: ([].concat(assetResources.style.general, assetResources.style.fonts)),
+            files: ([].concat(assetResources.style.general)),
             tasks: ['task:css', 'task:gitadd'],
             options: {
                 interval: 500
@@ -168,7 +146,6 @@ module.exports = function (grunt) {
         ['task:watch', ['watch']],
         ['task:uglify', ['uglify']],
         ['task:css', ['cssmin:css']],
-        ['task:fonts', ['cssmin:fonts']],
         ['task:copy', ['copy']],
         ['task:less', ['less:main']],
         ['default', [
@@ -177,7 +154,6 @@ module.exports = function (grunt) {
             'task:uglify',
             'task:less',
             'task:css',
-            'task:fonts',
             'task:gitadd',
             'task:watch'
         ]]

@@ -1,0 +1,53 @@
+<nav>
+    <ul class="pagination">
+        {{#if links.first}}
+            <li>
+                <a href="{{links.first}}" aria-label="First">
+                    <span aria-hidden="true">
+                        <i class="fa fa-angle-double-left"></i>
+                        First
+                    </span>
+                </a>
+            </li>
+        {{/if}}
+        {{#if links.prev}}
+            <li>
+                <a href="{{links.prev}}" aria-label="Previous">
+                    <span aria-hidden="true">
+                        <i class="fa fa-angle-left"></i>
+                        Prev
+                    </span>
+                </a>
+            </li>
+        {{/if}}
+        {{#if query.page}}
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">
+                        {{query.page}}
+                    </span>
+                </a>
+            </li>
+        {{/if}}
+        {{#if links.next}}
+            <li>
+                <a href="{{links.next}}" aria-label="Next">
+                    <span aria-hidden="true">
+                        Next
+                        <i class="fa fa-angle-right"></i>
+                    </span>
+                </a>
+            </li>
+        {{/if}}
+        {{#if links.last}}
+            <li>
+                <a href="{{links.last}}" aria-label="Last">
+                    <span aria-hidden="true">
+                        Last
+                        <i class="fa fa-angle-double-right"></i>
+                    </span>
+                </a>
+            </li>
+        {{/if}}
+    </ul>
+</nav>
