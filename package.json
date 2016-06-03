@@ -1,7 +1,7 @@
 {
-  "name": "loginPassportDemo",
-  "version": "0.0.3",
-  "description": "NodeJS demo application for passportjs login.",
+  "name": "Github tracer",
+  "version": "0.0.8",
+  "description": "NodeJS demo application for passportjs login and github api.",
   "private": true,
   "repository": null,
   "main": "index.js",
