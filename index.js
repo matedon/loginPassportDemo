@@ -109,7 +109,7 @@ app
 
 require('./app/routes.js')(app, passport);
 
-require('./config/passport')(passport);
+require('./app/passport.js')(passport);
 
 app.listen(port, function () {
     console.log('App listening on port: ' + port);

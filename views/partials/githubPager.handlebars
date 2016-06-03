@@ -3,9 +3,9 @@
         Pages:
     </label>
     <ul class="pagination">
-        {{#if links.first}}
+        {{#if github.links.first}}
             <li>
-                <a href="{{links.first}}" aria-label="First">
+                <a href="{{github.links.first}}" aria-label="First">
                     <span aria-hidden="true">
                         <i class="fa fa-angle-double-left"></i>
                         First
@@ -13,9 +13,9 @@
                 </a>
             </li>
         {{/if}}
-        {{#if links.prev}}
+        {{#if github.links.prev}}
             <li>
-                <a href="{{links.prev}}" aria-label="Previous">
+                <a href="{{github.links.prev}}" aria-label="Previous">
                     <span aria-hidden="true">
                         <i class="fa fa-angle-left"></i>
                         Prev
@@ -23,18 +23,18 @@
                 </a>
             </li>
         {{/if}}
-        {{#if query.page}}
+        {{#if github.query.page}}
             <li>
                 <a href="#" aria-label="Previous">
                     <span aria-hidden="true">
-                        {{query.page}}
+                        {{github.query.page}}
                     </span>
                 </a>
             </li>
         {{/if}}
-        {{#if links.next}}
+        {{#if github.links.next}}
             <li>
-                <a href="{{links.next}}" aria-label="Next">
+                <a href="{{github.links.next}}" aria-label="Next">
                     <span aria-hidden="true">
                         Next
                         <i class="fa fa-angle-right"></i>
@@ -42,9 +42,9 @@
                 </a>
             </li>
         {{/if}}
-        {{#if links.last}}
+        {{#if github.links.last}}
             <li>
-                <a href="{{links.last}}" aria-label="Last">
+                <a href="{{github.links.last}}" aria-label="Last">
                     <span aria-hidden="true">
                         Last
                         <i class="fa fa-angle-double-right"></i>

@@ -1,6 +1,6 @@
-var LocalStrategy = require('passport-local').Strategy;
-
-var dbLocal = require('../db');
+const
+    LocalStrategy = require('passport-local').Strategy,
+    users = require('./users');
 
 module.exports = function (passport) {
 
@@ -9,7 +9,7 @@ module.exports = function (passport) {
     });
 
     passport.deserializeUser(function (id, done) {
-        dbLocal.users.findById(id, function (err, user) {
+        users.findById(id, function (err, user) {
             done(err, user);
         });
     });
@@ -25,7 +25,7 @@ module.exports = function (passport) {
             }
             // async
             process.nextTick(function () {
-                dbLocal.users.findByEmail(email, function (err, user) {
+                users.findByEmail(email, function (err, user) {
                     if (err) {
                         return done(err);
                     }
