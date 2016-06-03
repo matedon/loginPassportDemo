@@ -1,5 +1,5 @@
 {
-  "name": "Github tracer",
+  "name": "github_tracer",
   "version": "0.0.8",
   "description": "NodeJS demo application for passportjs login and github api.",
   "private": true,
