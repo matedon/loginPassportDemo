@@ -1,11 +1,6 @@
-{{#if error}}
-    <br />
-    <strong class="alert alert-danger">
-        {{{error}}}
-    </strong>
-{{/if}}
 {{#if github}}
     <h2>Here you find the GIT repo list</h2>
+    <h3>The {{github.user}}'s projects listend below</h3>
     <hr />
     <section>
         <div class="row">
@@ -20,7 +15,7 @@
             {{#each github.repos}}
                 <article class="well" title="{{this.name}}">
                     <a href="{{this.html_url}}" target="_blank">
-                        {{this.owner.login}} @ {{this.name}}
+                        {{this.name}}
                     </a>
                     <div>
                         Created: {{phpdate this.created_at}}, Updated: {{phpdate this.updated_at}}
@@ -34,6 +29,11 @@
     <h2>
         Error! Please choiche antoher repository!
     </h2>
+    {{#if error}}
+        <p>
+            {{{error}}}
+        </p>
+    {{/if}}
     <hr />
     {{>githubUser}}
 {{/if}}

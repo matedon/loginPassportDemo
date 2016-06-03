@@ -38,9 +38,9 @@ module.exports = function (app, passport) {
                         github: github
                     });
                 })
-                .catch(function(res) {
+                .catch(function(out) {
                     renderPart.call(this, req, res, 'index', {
-                        error: res.message
+                        error: out.message
                     });
                 })
             ;

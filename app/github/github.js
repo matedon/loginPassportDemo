@@ -38,10 +38,10 @@ exports.getRepos = function (opts) {
                 page: 1,
                 per_page: 10
             },
-            userName: 'jeresig'
+            user: 'jeresig'
         }, opts);
 
-        var params = url.parse('https://api.github.com/users/' + opts.userName + '/repos?' + querystring.stringify(opts.query));
+        var params = url.parse('https://api.github.com/users/' + opts.user + '/repos?' + querystring.stringify(opts.query));
         params.headers = {
             'user-agent': 'virgoNode'
         };
@@ -54,10 +54,16 @@ exports.getRepos = function (opts) {
                 quest.on('end', function () {
                     var repos = JSON.parse(data),
                         links = parseLinkHeader(quest.headers.link);
+                    if (repos.message) {
+                        reject({
+                            message: 'Github repository not avaliable!'
+                        });
+                        return;
+                    }
                     fulfill({
                         repos: repos,
-                        userName: opts.userName,
                         links: links,
+                        user: opts.user,
                         query: opts.query
                     });
                 });
