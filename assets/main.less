@@ -4,6 +4,8 @@
 @import "../bower_components/components-font-awesome/less/font-awesome.less";
 @fa-font-path: "fonts";
 
+@navbar-inverse-bg: #000044;
+
 body {
   padding-top: 70px;
   padding-bottom: 30px;
@@ -12,6 +14,13 @@ body {
     .input-group-addon {
       .fa {
         min-width: 1em;
+      }
+    }
+  }
+  .navbar {
+    &.navbar-inverse {
+      a {
+        color: white;
       }
     }
   }

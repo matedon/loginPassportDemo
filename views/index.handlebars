@@ -2,5 +2,9 @@
 {{#if req.user}}
     {{>github}}
 {{else}}
-    <p>Please <a href="/login">login</a> :)</p>
+    <p>
+        Please <a class="btn btn-sm btn-primary" href="/login">login</a>
+        <br />
+        <i class="fa fa-2x fa-smile-o"></i>
+    </p>
 {{/if}}
