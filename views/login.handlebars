@@ -1,3 +1,8 @@
+{{#if req.query.issue}}
+    <div class="alert alert-danger">
+        You shall not pass! Please check login details!
+    </div>
+{{/if}}
 <div class="well">
     <form class="horizontal-form" method="post" action="login">
         <div class="input-group">

@@ -55,7 +55,7 @@ module.exports = function (app, passport) {
 
     app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/profile?login=1',
-        failureRedirect: '/login'
+        failureRedirect: '/login?issue=1'
     }));
 
     app.get('/logout', function (req, res) {
