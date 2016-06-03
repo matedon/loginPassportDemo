@@ -8,9 +8,28 @@
     <h2>Here you find the GIT repo list</h2>
     <hr />
     <section>
-        {{>githubPager}}
+        <div class="row">
+            <div class="col-sm-4">
+                {{>githubPager}}
+            </div>
+            <div class="col-sm-offset-4 col-sm-4">
+                <form action="/" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Github username"
+                               name="uname"
+                               value="{{githubUserName}}"
+                               aria-describedby="github-username">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                Reload list
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
         {{#each github}}
-            <article class="well">
+            <article class="well" title="{{this.name}}">
                 <a href="{{this.html_url}}" target="_blank">
                     {{this.owner.login}} @ {{this.name}}
                 </a>

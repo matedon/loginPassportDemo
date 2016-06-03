@@ -5,15 +5,17 @@ module.exports = function (app, passport) {
 
     var parseLinkHeader = function(header) {
         // https://gist.github.com/niallo/3109252
-        if (header.length == 0) {
-            throw new Error("input must not be of zero length");
+        if (!(header && header.length)) {
+            console.error("input must not be of zero length");
+            return false;
         }
         var parts = header.split(','),
             links = {};
         _.each(parts, function(p) {
             var section = p.split(';');
             if (section.length != 2) {
-                throw new Error("section could not be split on ';'");
+                console.error("section could not be split on ';'");
+                return false;
             }
             var url = section[0].replace(/<(.*)>/, '$1').trim(),
                 name = section[1].replace(/rel="(.*)"/, '$1').trim();
@@ -49,7 +51,8 @@ module.exports = function (app, passport) {
                     page: req.query.page ? req.query.page : 1,
                     per_page: req.query.per_page ? req.query.per_page : 10
                 },
-                params = url.parse('https://api.github.com/users/jeresig/repos?' + querystring.stringify(query));
+                userName = req.query.uname ? req.query.uname : 'jeresig',
+                params = url.parse('https://api.github.com/users/' + userName + '/repos?' + querystring.stringify(query));
             params.headers = {
                 'user-agent': 'virgoNode'
             };
@@ -65,6 +68,7 @@ module.exports = function (app, passport) {
                         console.log(links);
                         renderPart.call(this, req, res, 'index', {
                             github: data,
+                            githubUserName: userName,
                             links: links,
                             query: query
                         });

@@ -2765,3 +2765,15 @@ body .input-group .input-group-addon .fa {
 body .navbar.navbar-inverse a {
   color: white;
 }
+body nav {
+  display: inline-block;
+}
+body nav ul.pagination {
+  margin: 0;
+  vertical-align: middle;
+}
+body nav label {
+  line-height: 33px;
+  vertical-align: middle;
+  margin: 0 0.5em 0 0;
+}
