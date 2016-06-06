@@ -1,17 +1,30 @@
 'use strict';
 
-module.exports = function (app, passport) {
+module.exports = function (app) {
     const
         _ = require('lodash'),
-        github = require('./github');
+        bodyParser = require('body-parser'),
+        passport = require('passport'),
+        github = require('./github'),
+        cookieParser = require('cookie-parser'),
+        parseForm = bodyParser.urlencoded({extended: false}),
+        csrf = require('csurf'),
+        csrfProtection = csrf({cookie: true});
 
+    app
+        .use(bodyParser.json())
+        .use(bodyParser.urlencoded({extended: true}))
+        .use(passport.initialize())
+        .use(passport.session())
+        .use(cookieParser())
+    ;
 
+    require('./passport.js')(passport);
 
     var renderPart = function (req, res, name, opts) {
         if (typeof name == 'undefined') {
             name = 'index';
         }
-        console.log(req.user);
         opts = _.merge({
             page: name,
             layout: 'main',
@@ -33,12 +46,12 @@ module.exports = function (app, passport) {
                     },
                     user: req.query.uname
                 })
-                .then(function(github) {
+                .then(function (github) {
                     renderPart.call(this, req, res, 'index', {
                         github: github
                     });
                 })
-                .catch(function(out) {
+                .catch(function (out) {
                     renderPart.call(this, req, res, 'index', {
                         error: out.message
                     });
@@ -49,11 +62,21 @@ module.exports = function (app, passport) {
         }
     });
 
-    app.get('/login', function (req, res) {
-        renderPart.call(this, req, res, 'login');
+    app.get('/login', csrfProtection, function (req, res) {
+        renderPart.call(this, req, res, 'login', {
+            csrfToken: req.csrfToken()
+        });
     });
 
-    app.post('/login', passport.authenticate('local-login', {
+    app.post('/login', parseForm, csrfProtection, function (err, req, res, next) {
+        if (err.code !== 'EBADCSRFTOKEN') {
+            return next();
+        }
+        renderPart.call(this, req, res, 'login', {
+            csrfToken: req.csrfToken(),
+            issue: 'CSRF token error! Reset your browser or contact with your System Administrator!'
+        });
+    }, passport.authenticate('local-login', {
         successRedirect: '/profile?login=1',
         failureRedirect: '/login?issue=1'
     }));

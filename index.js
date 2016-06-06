@@ -4,15 +4,11 @@ const
     port = process.env.PORT || 5000,
     express = require('express'),
     app = express(),
-    fs = require('fs'),
     path = require('path'),
     _ = require('lodash'),
     morgan = require('morgan'),
-    passport = require('passport'),
-    // dbLocal = require('./db'),
     Promise = require('bluebird'),
     lessMiddleware = require('less-middleware'),
-    bodyParser = require('body-parser'),
     phpdate = require('phpdate-js'),
     exphbs = require('express-handlebars'),
     timeStamp = (new Date()).getTime();
@@ -84,7 +80,6 @@ var hbs = exphbs.create({
 });
 
 app
-// .use(auth.connect(basic))
     .use('/public/less', lessMiddleware(path.join(__dirname, 'public', 'less'), {
         force: true,
         debug: true
@@ -96,20 +91,12 @@ app
         resave: false,
         saveUninitialized: false
     }))
-    .use(passport.initialize())
-    .use(passport.session())
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({
-        extended: true
-    }))
     .use(morgan('dev'))
     .engine('handlebars', hbs.engine)
     .set('view engine', 'handlebars')
 ;
 
-require('./app/routes.js')(app, passport);
-
-require('./app/passport.js')(passport);
+require('./app/routes.js')(app);
 
 app.listen(port, function () {
     console.log('App listening on port: ' + port);

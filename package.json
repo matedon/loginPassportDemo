@@ -23,6 +23,8 @@
     "bluebird": "^3.3.4",
     "body-parser": "^1.15.0",
     "bower": "^1.7.7",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
     "express": "^4.13.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.13.0",
