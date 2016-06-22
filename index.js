@@ -13,7 +13,11 @@ const
     Promise = require('bluebird'),
     lessMiddleware = require('less-middleware'),
     phpdate = require('phpdate-js'),
-    exphbs = require('express-handlebars');
+    exphbs = require('express-handlebars'),
+    assets = {
+        scripts: require('./public/_build/scripts.json'),
+        styles: require('./public/_build/styles.json')
+    };
 
 var hbs = exphbs.create({
     defaultLayout: "main",
@@ -24,6 +28,26 @@ var hbs = exphbs.create({
         /**
          * Last argument is always a Handlebars argument!
          */
+        styles: function () {
+            var list = assets.styles;
+            if (arguments.length > 1) {
+                list = arguments[0];
+            }
+            var out = _.map(list, function (val) {
+                return '<link rel="stylesheet" href="' + val + '"/>\n';
+            });
+            return out.join('');
+        },
+        scripts: function () {
+            var list = assets.scripts;
+            if (arguments.length > 1) {
+                list = arguments[0];
+            }
+            var out = _.map(list, function (val) {
+                return '<script src="' + val + '"></script>\n';
+            });
+            return out.join('');
+        },
         dateFormat: function () {
             var dateFormat = 'Y.m.d. H:i:s',
                 dateText = (new Date()).getTime();

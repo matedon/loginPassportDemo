@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const assetResources = {
+const resources = {
     js: {
         general: [
             'bower_components/jquery/dist/jquery.min.js',
@@ -12,27 +12,37 @@ const assetResources = {
             'assets/main.js'
         ]
     },
-    style: {
+    css: {
         less: [
             'assets/main.less'
         ]
     }
 };
 
+const assets = {
+    js: {
+        general: {
+            files: resources.js.general,
+            src: {
+                'public/_build/general.js': resources.js.general
+            }
+        }
+    },
+    css: {
+        less: {
+            files: [
+                resources.css.less
+            ],
+            src: {
+                'public/_build/less.css': resources.css.less
+            }
+        }
+    }
+};
+
 module.exports = function (grunt) {
     const
-        gruntConfig = {},
-        assetFiles = {
-            less : {
-                'public/_build/less.css': assetResources.style.less
-            },
-            uglify: {
-                'public/_build/general.js': assetResources.js.general
-            }
-        },
-        assetDisplay = _.map(assetFiles, function (group, key) {
-            return _.map(Object.keys(group));
-        });
+        gruntConfig = {};
 
     gruntConfig.less = {
         main: {
@@ -43,10 +53,10 @@ module.exports = function (grunt) {
                 rebase: true,
                 strictMath: true
             },
-            files: assetFiles.less
+            files: assets.css.less.src
         }
     };
-    
+
     gruntConfig.uglify = {
         general: {
             options: {
@@ -54,7 +64,7 @@ module.exports = function (grunt) {
                 compress: false,
                 mangle: false
             },
-            files: assetFiles.uglify
+            files: assets.js.general.src
         }
     };
     
@@ -79,7 +89,7 @@ module.exports = function (grunt) {
     };
 
     gruntConfig.shell = {
-        gitadd: {
+        gitAdd: {
             command: 'git add public/_build/*'
         }
     };
@@ -87,13 +97,21 @@ module.exports = function (grunt) {
     gruntConfig.cacheBust = {
         options: {
             deleteOriginals: true,
-            assets: assetDisplay
+            jsonOutput: true
         },
-        main: {
-            src: [
-                'views/partials/resources/core-css.handlebars',
-                'views/partials/resources/core-js.handlebars'
-            ]
+        js: {
+            options: {
+                assets: Object.keys(assets.js.general.src),
+                jsonOutputFilename: 'public/_build/scripts.json'
+            },
+            src: ['index.html']
+        },
+        css: {
+            options: {
+                assets: Object.keys(assets.css.less.src),
+                jsonOutputFilename: 'public/_build/styles.json'
+            },
+            src: ['index.html']
         }
     };
 
@@ -105,16 +123,16 @@ module.exports = function (grunt) {
                 interval: 1200
             }
         },
-        general_js: {
-            files: assetResources.js.general,
-            tasks: ['uglify:general', 'task:gitadd'],
+        assetJs: {
+            files: assets.js.general.files,
+            tasks: ['uglify:general', 'task:gitAdd'],
             options: {
                 interval: 500
             }
         },
-        less: {
-            files: assetResources.style.less,
-            tasks: ['task:less', 'task:gitadd'],
+        assetCss: {
+            files: assets.css.less.files,
+            tasks: ['task:less', 'task:gitAdd'],
             options: {
                 interval: 500
             }
@@ -135,20 +153,20 @@ module.exports = function (grunt) {
     });
 
     [
-        ['task:gitadd', ['shell:gitadd']],
+        ['task:gitAdd', ['shell:gitAdd']],
         ['task:clean:build', ['clean:build']],
         ['task:copy', ['copy']],
         ['task:watch', ['watch']],
         ['task:uglify', ['uglify']],
         ['task:less', ['less:main']],
-        ['task:cacheBust', ['cacheBust:main']],
+        ['task:cacheBust', ['cacheBust:js', 'cacheBust:css']],
         ['default', [
             'task:clean:build',
             'task:copy',
             'task:uglify',
             'task:less',
             'task:cacheBust',
-            'task:gitadd',
+            'task:gitAdd',
             'task:watch'
         ]]
     ].forEach(function(input) {
