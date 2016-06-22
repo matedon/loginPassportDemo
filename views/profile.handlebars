@@ -1,17 +1,17 @@
 <h1>Welcome</h1>
 <p>This is your profile page!</p>
 <hr />
-{{#if req.user}}
+{{#if loginUser}}
     <dl>
         <dt>Username</dt>
-        <dd>{{req.user.username}}</dd>
+        <dd>{{loginUser.username}}</dd>
         <dt>Name</dt>
-        <dd>{{req.user.displayName}}</dd>
+        <dd>{{loginUser.displayName}}</dd>
         <dt>email</dt>
-        <dd>{{req.user.email}}</dd>
+        <dd>{{loginUser.email}}</dd>
     </dl>
 {{/if}}
-{{#if req.query.login}}
+{{#if loginRedirect}}
     <div class="well">
         After login, you are redirected to the main page!
     </div>

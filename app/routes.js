@@ -1,6 +1,10 @@
 'use strict';
 
+import {_} from 'lodash';
+import {bodyParser} from 'body-parser';
+
 module.exports = function (app) {
+
     const
         _ = require('lodash'),
         bodyParser = require('body-parser'),
@@ -28,7 +32,7 @@ module.exports = function (app) {
         opts = _.merge({
             page: name,
             layout: 'main',
-            req: req
+            loginUser: req.user
         }, opts);
         if (req.xhr) {
             opts.layout = 'ajax';
@@ -77,9 +81,12 @@ module.exports = function (app) {
             issue: 'CSRF token error! Reset your browser or contact with your System Administrator!'
         });
     }, passport.authenticate('local-login', {
-        successRedirect: '/profile?login=1',
         failureRedirect: '/login?issue=1'
-    }));
+    }), function (req, res) {
+        renderPart.call(this, req, res, 'profile', {
+            loginRedirect: true
+        });
+    });
 
     app.get('/logout', function (req, res) {
         req.logout();

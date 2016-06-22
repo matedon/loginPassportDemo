@@ -1,5 +1,8 @@
 'use strict';
 
+require('babel-core/register');
+require('babel-preset-es2015');
+
 const
     port = process.env.PORT || 5000,
     express = require('express'),
@@ -10,24 +13,7 @@ const
     Promise = require('bluebird'),
     lessMiddleware = require('less-middleware'),
     phpdate = require('phpdate-js'),
-    exphbs = require('express-handlebars'),
-    timeStamp = (new Date()).getTime();
-var
-    assets = {
-        styles: [
-            'public/_build/css.css',
-            'public/_build/less.css'
-        ],
-        scripts: [
-            'public/_build/general.js'
-        ]
-    };
-
-_.forEach(assets, function (group) {
-    _.forEach(group, function (line, key) {
-        group[key] = line + '?noCache=' + timeStamp;
-    });
-});
+    exphbs = require('express-handlebars');
 
 var hbs = exphbs.create({
     defaultLayout: "main",
@@ -38,27 +24,7 @@ var hbs = exphbs.create({
         /**
          * Last argument is always a Handlebars argument!
          */
-        styles: function () {
-            var list = assets.styles;
-            if (arguments.length > 1) {
-                list = arguments[0];
-            }
-            var out = _.map(list, function (val) {
-                return '<link rel="stylesheet" href="' + val + '"/>\n';
-            });
-            return out.join('');
-        },
-        scripts: function () {
-            var list = assets.scripts;
-            if (arguments.length > 1) {
-                list = arguments[0];
-            }
-            var out = _.map(list, function (val) {
-                return '<script src="' + val + '"></script>\n';
-            });
-            return out.join('');
-        },
-        phpdate: function () {
+        dateFormat: function () {
             var dateFormat = 'Y.m.d. H:i:s',
                 dateText = (new Date()).getTime();
             if (arguments.length > 1) {

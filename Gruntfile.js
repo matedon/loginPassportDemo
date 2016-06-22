@@ -1,4 +1,8 @@
-assetResources = {
+"use strict";
+
+const _ = require('lodash');
+
+const assetResources = {
     js: {
         general: [
             'bower_components/jquery/dist/jquery.min.js',
@@ -9,31 +13,26 @@ assetResources = {
         ]
     },
     style: {
-        general: [
-            'bower_components/bootstrap-css/css/bootstrap.min.css',
-            'bower_components/bootstrap-css/css/bootstrap-theme.min.css'
-        ],
         less: [
             'assets/main.less'
         ]
     }
 };
 
-$uglifyOptions = {
-    beautify: true,
-    compress: false,
-    mangle: false
-};
-
-$cssminOptions = {
-    keepSpecialComments: 1,
-    shorthandCompacting: false,
-    roundingPrecision: -1,
-    rebase: false
-};
-
 module.exports = function (grunt) {
-    var gruntConfig = {};
+    const
+        gruntConfig = {},
+        assetFiles = {
+            less : {
+                'public/_build/less.css': assetResources.style.less
+            },
+            uglify: {
+                'public/_build/general.js': assetResources.js.general
+            }
+        },
+        assetDisplay = _.map(assetFiles, function (group, key) {
+            return _.map(Object.keys(group));
+        });
 
     gruntConfig.less = {
         main: {
@@ -44,29 +43,18 @@ module.exports = function (grunt) {
                 rebase: true,
                 strictMath: true
             },
-            files: {
-                'public/_build/less.css': assetResources.style.less
-            }
+            files: assetFiles.less
         }
     };
     
     gruntConfig.uglify = {
         general: {
-            options: $uglifyOptions,
-            files: {
-                'public/_build/general.js': assetResources.js.general
-            }
-        }
-    };
-    
-    gruntConfig.cssmin = {
-        css: {
-            options: $cssminOptions,
-            files: {
-                'public/_build/css.css': [
-                    assetResources.style.general
-                ]
-            }
+            options: {
+                beautify: true,
+                compress: false,
+                mangle: false
+            },
+            files: assetFiles.uglify
         }
     };
     
@@ -96,6 +84,19 @@ module.exports = function (grunt) {
         }
     };
 
+    gruntConfig.cacheBust = {
+        options: {
+            deleteOriginals: true,
+            assets: assetDisplay
+        },
+        main: {
+            src: [
+                'views/partials/resources/core-css.handlebars',
+                'views/partials/resources/core-js.handlebars'
+            ]
+        }
+    };
+
     gruntConfig.watch = {
         gruntConfig: {
             files: 'Gruntfile.js',
@@ -107,13 +108,6 @@ module.exports = function (grunt) {
         general_js: {
             files: assetResources.js.general,
             tasks: ['uglify:general', 'task:gitadd'],
-            options: {
-                interval: 500
-            }
-        },
-        style_css: {
-            files: ([].concat(assetResources.style.general)),
-            tasks: ['task:css', 'task:gitadd'],
             options: {
                 interval: 500
             }
@@ -134,6 +128,7 @@ module.exports = function (grunt) {
         'grunt-contrib-uglify',
         'grunt-contrib-cssmin',
         'grunt-contrib-less',
+        'grunt-cache-bust',
         'grunt-contrib-watch'
     ].forEach(function(name) {
         grunt.loadNpmTasks(name);
@@ -145,15 +140,14 @@ module.exports = function (grunt) {
         ['task:copy', ['copy']],
         ['task:watch', ['watch']],
         ['task:uglify', ['uglify']],
-        ['task:css', ['cssmin:css']],
-        ['task:copy', ['copy']],
         ['task:less', ['less:main']],
+        ['task:cacheBust', ['cacheBust:main']],
         ['default', [
             'task:clean:build',
             'task:copy',
             'task:uglify',
             'task:less',
-            'task:css',
+            'task:cacheBust',
             'task:gitadd',
             'task:watch'
         ]]

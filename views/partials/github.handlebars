@@ -4,10 +4,10 @@
     <hr />
     <section>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 {{>githubPager}}
             </div>
-            <div class="col-sm-offset-4 col-sm-4">
+            <div class="col-sm-4">
                 {{>githubUser}}
             </div>
         </div>
@@ -18,7 +18,7 @@
                         {{this.name}}
                     </a>
                     <div>
-                        Created: {{phpdate this.created_at}}, Updated: {{phpdate this.updated_at}}
+                        Created: {{dateFormat this.created_at}}, Updated: {{dateFormat this.updated_at}}
                     </div>
                 </article>
             {{/each}}

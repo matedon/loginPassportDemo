@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed"
@@ -16,10 +16,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="{{#equal req.url "/" }}active{{/equal}}">
+                <li class="{{#equal page "index" }}active{{/equal}}">
                     <a href="/">Home</a>
                 </li>
-                {{#if req.user}}
+                {{#if loginUser}}
                     <li class="{{#equal page "profile" }}active{{/equal}}">
                         <a href="/profile">Profile</a>
                     </li>
