@@ -12,12 +12,15 @@
     </dl>
 {{/if}}
 {{#if loginRedirect}}
-    <div class="well">
-        After login, you are redirected to the main page!
-    </div>
     <script>
         var indexTimer = setTimeout(function () {
             window.location.href = '/';
         }, 1000);
     </script>
+    <div class="well">
+        After login, you are redirected to the main page!
+        <div class="pull-right">
+            <i class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+        </div>
+    </div>
 {{/if}}

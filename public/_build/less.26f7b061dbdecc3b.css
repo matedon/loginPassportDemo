@@ -9188,6 +9188,9 @@ body {
   padding-top: 70px;
   padding-bottom: 30px;
 }
+body .well .input-group-addon {
+  background: #2B3E50;
+}
 body .input-group {
   margin-bottom: 20px;
 }
