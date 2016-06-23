@@ -1,21 +1,20 @@
-import express from 'express';
-import path from 'path';
-import _ from 'lodash';
-import morgan from 'morgan';
-import Promise from 'bluebird';
-import lessMiddle from 'less-middleware';
-import phpdate from 'phpdate-js';
-import exphbs from 'express-handlebars';
+import express from 'express'
+import path from 'path'
+import _ from 'lodash'
+import morgan from 'morgan'
+import Promise from 'bluebird'
+import lessMiddle from 'less-middleware'
+import phpdate from 'phpdate-js'
+import exphbs from 'express-handlebars'
 
-import assetJs from '../public/_build/scripts.json';
-import assetCss from '../public/_build/styles.json';
+import assetJs from '../public/_build/scripts.json'
+import assetCss from '../public/_build/styles.json'
 
-const
-    port = process.env.PORT || 5000,
-    app = express();
+const port = process.env.PORT || 5000;
+const app = express()
 
 
-var hbs = exphbs.create({
+const hbs = exphbs.create({
     defaultLayout: "main",
     partialsDir: "views/partials/",
     layoutsDir: "views/layouts/",
@@ -25,45 +24,45 @@ var hbs = exphbs.create({
          * Last argument is always a Handlebars argument!
          */
         styles() {
-            let list = assetCss;
+            let list = assetCss
             if (arguments.length > 1) {
-                list = arguments[0];
+                list = arguments[0]
             }
             return _.chain(list)
                 .map((val) => '<link rel="stylesheet" href="' + val + '"/>\n')
                 .join('')
-                .value();
+                .value()
         },
         scripts() {
-            let list = assetJs;
+            let list = assetJs
             if (arguments.length > 1) {
-                list = arguments[0];
+                list = arguments[0]
             }
             return _.chain(list)
                 .map((val) => '<script src="' + val + '"></script>\n')
                 .join('')
-                .value();
+                .value()
         },
         dateFormat() {
             let dateFormat = 'Y.m.d. H:i:s',
-                dateText = (new Date()).getTime();
+                dateText = (new Date()).getTime()
             if (arguments.length > 1) {
-                dateText = arguments[0];
+                dateText = arguments[0]
             }
             if (arguments.length > 2) {
-                dateFormat = arguments[1];
+                dateFormat = arguments[1]
             }
-            return phpdate(dateFormat, dateText);
+            return phpdate(dateFormat, dateText)
         },
         jsonStringify() {
-            let json;
+            let json
             if (arguments.length > 1) {
-                json = arguments[0];
+                json = arguments[0]
             }
-            return JSON.stringify(json);
+            return JSON.stringify(json)
         }
     }
-});
+})
 
 app
     .use('/public/less', lessMiddle(path.join(__dirname, 'public', 'less'), {
@@ -80,11 +79,11 @@ app
     .use(morgan('dev'))
     .engine('handlebars', hbs.engine)
     .set('view engine', 'handlebars')
-;
 
-import Routes from './routes.js';
-Routes(app);
+
+import Routes from './routes.js'
+Routes(app)
 
 app.listen(port, () => {
-    console.log('App listening on port: ' + port);
-});
+    console.log('App listening on port: ' + port)
+})
