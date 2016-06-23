@@ -2,40 +2,22 @@
 
 const _ = require('lodash');
 
-const resources = {
-    js: {
-        general: [
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/bootstrap-css/js/bootstrap.min.js',
-            'bower_components/jquery.serializeJSON/jquery.serializejson.js',
-            'bower_components/moment/min/moment-with-locales.min.js',
-            'assets/main.js'
-        ]
-    },
-    css: {
-        less: [
-            'assets/main.less'
-        ]
-    }
-};
-
 const assets = {
     js: {
         general: {
-            files: resources.js.general,
-            src: {
-                'public/_build/general.js': resources.js.general
-            }
+            'public/_build/general.js': [
+                'bower_components/jquery/dist/jquery.min.js',
+                'bower_components/bootstrap-css/js/bootstrap.min.js',
+                'bower_components/jquery.serializeJSON/jquery.serializejson.js',
+                'assets/main.js'
+            ]
         }
     },
     css: {
         less: {
-            files: [
-                resources.css.less
-            ],
-            src: {
-                'public/_build/less.css': resources.css.less
-            }
+            'public/_build/less.css': [
+                'assets/main.less'
+            ]
         }
     }
 };
@@ -53,7 +35,7 @@ module.exports = function (grunt) {
                 rebase: true,
                 strictMath: true
             },
-            files: assets.css.less.src
+            files: assets.css.less
         }
     };
 
@@ -64,10 +46,10 @@ module.exports = function (grunt) {
                 compress: false,
                 mangle: false
             },
-            files: assets.js.general.src
+            files: assets.js.general
         }
     };
-    
+
     gruntConfig.copy = {
         files: {
             expand: true,
@@ -83,8 +65,11 @@ module.exports = function (grunt) {
     };
 
     gruntConfig.clean = {
-        build: [
-            'public/_build/*'
+        js: [
+            'public/_build/**/*.js'
+        ],
+        css: [
+            'public/_build/**/*.css'
         ]
     };
 
@@ -101,14 +86,14 @@ module.exports = function (grunt) {
         },
         js: {
             options: {
-                assets: Object.keys(assets.js.general.src),
+                assets: Object.keys(assets.js.general),
                 jsonOutputFilename: 'public/_build/scripts.json'
             },
             src: ['index.html']
         },
         css: {
             options: {
-                assets: Object.keys(assets.css.less.src),
+                assets: Object.keys(assets.css.less),
                 jsonOutputFilename: 'public/_build/styles.json'
             },
             src: ['index.html']
@@ -124,15 +109,15 @@ module.exports = function (grunt) {
             }
         },
         assetJs: {
-            files: assets.js.general.files,
-            tasks: ['uglify:general', 'task:gitAdd'],
+            files: _.chain(assets.js.general).values().head().value(),
+            tasks: ['clean:js', 'task:uglify', 'cacheBust:js', 'task:gitAdd'],
             options: {
                 interval: 500
             }
         },
         assetCss: {
-            files: assets.css.less.files,
-            tasks: ['task:less', 'task:gitAdd'],
+            files: _.chain(assets.css.less).values().head().value(),
+            tasks: ['clean:css', 'task:less', 'cacheBust:css', 'task:gitAdd'],
             options: {
                 interval: 500
             }
@@ -148,20 +133,20 @@ module.exports = function (grunt) {
         'grunt-contrib-less',
         'grunt-cache-bust',
         'grunt-contrib-watch'
-    ].forEach(function(name) {
+    ].forEach((name) => {
         grunt.loadNpmTasks(name);
     });
 
     [
         ['task:gitAdd', ['shell:gitAdd']],
-        ['task:clean:build', ['clean:build']],
+        ['task:clean', ['clean:js', 'clean:css']],
         ['task:copy', ['copy']],
         ['task:watch', ['watch']],
         ['task:uglify', ['uglify']],
         ['task:less', ['less:main']],
         ['task:cacheBust', ['cacheBust:js', 'cacheBust:css']],
         ['default', [
-            'task:clean:build',
+            'task:clean',
             'task:copy',
             'task:uglify',
             'task:less',
@@ -169,7 +154,7 @@ module.exports = function (grunt) {
             'task:gitAdd',
             'task:watch'
         ]]
-    ].forEach(function(input) {
+    ].forEach((input) => {
         grunt.registerTask(input[0], input[1]);
     });
 

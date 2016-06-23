@@ -4,7 +4,7 @@
   "description": "NodeJS demo application for passportjs login and github api.",
   "private": true,
   "repository": null,
-  "main": "index.js",
+  "main": "server.js",
   "engines": {
     "node": "4.x",
     "npm": "2.1.x"

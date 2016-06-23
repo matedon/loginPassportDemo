@@ -1,31 +1,30 @@
-const
-    LocalStrategy = require('passport-local').Strategy,
-    users = require('./users');
+import {Strategy} from 'passport-local';
+import * as users from './users';
 
-module.exports = function (passport) {
+export default (passport) => {
 
-    passport.serializeUser(function (user, done) {
+    passport.serializeUser((user, done) => {
         done(null, user.id);
     });
 
-    passport.deserializeUser(function (id, done) {
-        users.findById(id, function (err, user) {
+    passport.deserializeUser((id, done) => {
+        users.findById(id, (err, user) => {
             done(err, user);
         });
     });
 
-    passport.use('local-login', new LocalStrategy({
+    passport.use('local-login', new Strategy({
             usernameField: 'email',
             passwordField: 'password',
             passReqToCallback: true
         },
-        function (req, email, password, done) {
+        (req, email, password, done) => {
             if (email) {
                 email = email.toLowerCase();
             }
             // async
-            process.nextTick(function () {
-                users.findByEmail(email, function (err, user) {
+            process.nextTick(() => {
+                users.findByEmail(email, (err, user) => {
                     if (err) {
                         return done(err);
                     }

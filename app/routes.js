@@ -1,19 +1,61 @@
-'use strict';
+import _ from 'lodash';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
+import * as github from './github';
+import myPassport from './passport.js';
+myPassport(passport);
 
-import {_} from 'lodash';
-import {bodyParser} from 'body-parser';
-
-module.exports = function (app) {
+export default (app) => {
 
     const
-        _ = require('lodash'),
-        bodyParser = require('body-parser'),
-        passport = require('passport'),
-        github = require('./github'),
-        cookieParser = require('cookie-parser'),
         parseForm = bodyParser.urlencoded({extended: false}),
-        csrf = require('csurf'),
-        csrfProtection = csrf({cookie: true});
+        csrfProtection = csrf({cookie: true}),
+        renderPart = (req, res, name, opts) => {
+            if (typeof name == 'undefined') {
+                name = 'index';
+            }
+            opts = _.merge({
+                page: name,
+                layout: 'main',
+                loginUser: req.user
+            }, opts);
+            if (req.xhr) {
+                opts.layout = 'ajax';
+            }
+            res.render(name, opts);
+        },
+        isLoggedIn = (req, res, next) => {
+            if (req.isAuthenticated()) {
+                return next();
+            }
+            res.redirect('/');
+        },
+        indexHandler = (req, res) => {
+            if (req.user) {
+                github.getRepos({
+                    query: {
+                        page: req.query.page,
+                        per_page: req.query.per_page
+                    },
+                    user: req.query.uname
+                })
+                    .then((github) => {
+                        renderPart.call(this, req, res, 'index', {
+                            github
+                        });
+                    })
+                    .catch((out) => {
+                        renderPart.call(this, req, res, 'index', {
+                            error: out.message
+                        });
+                    })
+                ;
+            } else {
+                renderPart.call(this, req, res, 'index');
+            }
+        };
 
     app
         .use(bodyParser.json())
@@ -23,84 +65,55 @@ module.exports = function (app) {
         .use(cookieParser())
     ;
 
-    require('./passport.js')(passport);
+    app.get('/', indexHandler);
 
-    var renderPart = function (req, res, name, opts) {
-        if (typeof name == 'undefined') {
-            name = 'index';
-        }
-        opts = _.merge({
-            page: name,
-            layout: 'main',
-            loginUser: req.user
-        }, opts);
-        if (req.xhr) {
-            opts.layout = 'ajax';
-        }
-        res.render(name, opts);
-    };
-
-    app.get('/', function (req, res) {
-        if (req.user) {
-            github
-                .getRepos({
-                    query: {
-                        page: req.query.page,
-                        per_page: req.query.per_page
-                    },
-                    user: req.query.uname
-                })
-                .then(function (github) {
-                    renderPart.call(this, req, res, 'index', {
-                        github: github
-                    });
-                })
-                .catch(function (out) {
-                    renderPart.call(this, req, res, 'index', {
-                        error: out.message
-                    });
-                })
-            ;
-        } else {
-            renderPart.call(this, req, res, 'index');
-        }
-    });
-
-    app.get('/login', csrfProtection, function (req, res) {
+    app.get('/login', csrfProtection, (req, res, next) => {
         renderPart.call(this, req, res, 'login', {
             csrfToken: req.csrfToken()
         });
     });
 
-    app.post('/login', parseForm, csrfProtection, function (err, req, res, next) {
-        if (err.code !== 'EBADCSRFTOKEN') {
-            return next();
+    app.post('/login',
+        parseForm,
+        csrfProtection,
+        (err, req, res, next) => {
+            if (err.code !== 'EBADCSRFTOKEN') {
+                return next();
+            }
+            renderPart.call(this, req, res, 'login', {
+                csrfToken: req.csrfToken(),
+                issue: 'CSRF token error! Reset your browser or contact with your System Administrator!'
+            });
+        },
+        (req, res, next) => {
+            passport.authenticate('local-login', function (err, user, info) {
+                if (err) {
+                    return next(err);
+                }
+                if (!user) {
+                    renderPart.call(this, req, res, 'login', {
+                        issue: 'You shall not pass! Please check login details!',
+                        csrfToken: req.csrfToken()
+                    });
+                    return;
+                }
+                req.logIn(user, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    return indexHandler.call(this, req, res);
+                });
+            })(req, res, next);
         }
-        renderPart.call(this, req, res, 'login', {
-            csrfToken: req.csrfToken(),
-            issue: 'CSRF token error! Reset your browser or contact with your System Administrator!'
-        });
-    }, passport.authenticate('local-login', {
-        failureRedirect: '/login?issue=1'
-    }), function (req, res) {
-        renderPart.call(this, req, res, 'profile', {
-            loginRedirect: true
-        });
-    });
+    )
+    ;
 
-    app.get('/logout', function (req, res) {
+    app.get('/logout', (req, res) => {
         req.logout();
         res.redirect('/');
     });
 
-    app.get('/profile', isLoggedIn, function (req, res) {
+    app.get('/profile', isLoggedIn, (req, res) => {
         renderPart.call(this, req, res, 'profile');
     });
 };
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/');
-}
