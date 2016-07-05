@@ -1,6 +1,6 @@
 "use strict";
 
-const _ = require('lodash');
+const _ = require('lodash')
 
 const assets = {
     js: {
@@ -20,11 +20,10 @@ const assets = {
             ]
         }
     }
-};
+}
 
 module.exports = function (grunt) {
-    const
-        gruntConfig = {};
+    let gruntConfig = {}
 
     gruntConfig.less = {
         main: {
@@ -37,7 +36,7 @@ module.exports = function (grunt) {
             },
             files: assets.css.less
         }
-    };
+    }
 
     gruntConfig.uglify = {
         general: {
@@ -48,10 +47,26 @@ module.exports = function (grunt) {
             },
             files: assets.js.general
         }
-    };
+    }
 
     gruntConfig.copy = {
-        files: {
+        config: {
+            expand: true,
+            cwd: 'config/sample',
+            src: '**/*',
+            dest: 'config',
+            // Copy if file does not exist.
+            filter: function (filepath) {
+                const path = require('path')
+                const dest = path.join(
+                    gruntConfig.copy.config.dest,
+                    path.basename(filepath)
+                )
+                console.log('copy filter', dest)
+                return !(grunt.file.exists(dest))
+            }
+        },
+        assets: {
             expand: true,
             flatten: true,
             cwd: '.',
@@ -62,7 +77,7 @@ module.exports = function (grunt) {
             dest: 'public/_build/fonts/',
             filter: 'isFile'
         }
-    };
+    }
 
     gruntConfig.clean = {
         js: [
@@ -71,13 +86,13 @@ module.exports = function (grunt) {
         css: [
             'public/_build/**/*.css'
         ]
-    };
+    }
 
     gruntConfig.shell = {
         gitAdd: {
             command: 'git add public/_build/*'
         }
-    };
+    }
 
     gruntConfig.cacheBust = {
         options: {
@@ -98,7 +113,7 @@ module.exports = function (grunt) {
             },
             src: ['index.html']
         }
-    };
+    }
 
     gruntConfig.watch = {
         gruntConfig: {
@@ -122,9 +137,9 @@ module.exports = function (grunt) {
                 interval: 500
             }
         }
-    };
+    }
 
-    [
+    _.forEach([
         'grunt-shell',
         'grunt-contrib-clean',
         'grunt-contrib-copy',
@@ -133,14 +148,14 @@ module.exports = function (grunt) {
         'grunt-contrib-less',
         'grunt-cache-bust',
         'grunt-contrib-watch'
-    ].forEach((name) => {
-        grunt.loadNpmTasks(name);
-    });
+    ], (name) => {
+        grunt.loadNpmTasks(name)
+    })
 
-    [
+    _.forEach([
         ['task:gitAdd', ['shell:gitAdd']],
         ['task:clean', ['clean:js', 'clean:css']],
-        ['task:copy', ['copy']],
+        ['task:copy', ['copy:config', 'copy:assets']],
         ['task:watch', ['watch']],
         ['task:uglify', ['uglify']],
         ['task:less', ['less:main']],
@@ -154,10 +169,11 @@ module.exports = function (grunt) {
             'task:gitAdd',
             'task:watch'
         ]]
-    ].forEach((input) => {
-        grunt.registerTask(input[0], input[1]);
-    });
+    ], (input) => {
+        console.log(input[0], input[1])
+        grunt.registerTask(input[0], input[1])
+    })
 
-    grunt.initConfig(gruntConfig);
+    grunt.initConfig(gruntConfig)
 
-};
+}

@@ -31,15 +31,17 @@ export function getRepos (opts) {
         opts = _.merge({
             query: {
                 page: 1,
-                per_page: 10
+                per_page: 10,
+                access_token: configCommon.github.access_token
             },
             user: 'jeresig'
         }, opts)
 
+        console.log(opts)
+
         let params = url.parse('https://api.github.com/users/' + opts.user + '/repos?' + querystring.stringify(opts.query))
         params.headers = {
-            'user-agent': 'virgoNode',
-            'token': '3a64143259ee9dfc428d678624ebb7b6afd0a9d5'
+            'user-agent': 'virgoNode'
         }
         https
             .get(params, (quest) => {

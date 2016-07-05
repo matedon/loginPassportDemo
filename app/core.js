@@ -10,7 +10,10 @@ import exphbs from 'express-handlebars'
 import assetJs from '../public/_build/scripts.json'
 import assetCss from '../public/_build/styles.json'
 
-const port = process.env.PORT || 5000;
+import configCommon from '../config/common.json'
+GLOBAL.configCommon = configCommon
+
+const port = process.env.PORT || configCommon.port;
 const app = express()
 
 
